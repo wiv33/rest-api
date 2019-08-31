@@ -35,7 +35,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.modelmapper:modelmapper:2.3.5'
 
-
+    testCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
