@@ -4,8 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Builder @Getter @Setter
+@Builder
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
@@ -29,7 +31,12 @@ public class Event {
 
     private boolean offline;
     private boolean free;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @Builder.Default
     private EventStatus eventStatus = EventStatus.DRAFT;
 
+    public void update() {
+        // Update free
+        this.free = (this.basePrice == 0 && this.maxPrice == 0) ? true : false;
+        this.offline = (Objects.isNull(this.location) || this.location.isBlank() ? false : true);
+    }
 }
