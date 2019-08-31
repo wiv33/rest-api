@@ -2,14 +2,18 @@ package com.psawesome.demorestapi.events;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
+@Entity
 public class Event {
 
+    @Id
+    @GeneratedValue
     private Integer id;
 
     private String name;
@@ -25,6 +29,7 @@ public class Event {
 
     private boolean offline;
     private boolean fre;
+    @Enumerated(EnumType.STRING)
     private final EventStatus eventStatus = EventStatus.DRAFT;
 
 }
