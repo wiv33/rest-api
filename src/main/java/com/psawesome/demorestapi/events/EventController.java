@@ -3,6 +3,7 @@ package com.psawesome.demorestapi.events;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -33,7 +34,7 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity createdEvent(@RequestBody @Valid EventDto eventDto, Errors errors) {
+    public ResponseEntity<?> createdEvent(@RequestBody @Valid EventDto eventDto, Errors errors) {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().body(errors);
         }
@@ -46,7 +47,11 @@ public class EventController {
         Event event = modelMapper.map(eventDto, Event.class);
         event.update();
         Event newEvent = this.eventRepository.save(event);
-        URI uri = linkTo((EventController.class)).slash(newEvent.getId()).toUri();
-        return ResponseEntity.created(uri).body(event);
+        ControllerLinkBuilder selfLink = linkTo((EventController.class)).slash(newEvent.getId());
+        URI uri = selfLink.toUri();
+        EventResource eventResource = new EventResource(event);
+        eventResource.add(linkTo(EventController.class).withRel("query-events"));
+        eventResource.add(selfLink.withRel("update-event"));
+        return ResponseEntity.created(uri).body(eventResource);
     }
 }
