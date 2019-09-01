@@ -17,6 +17,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 ext {
@@ -37,6 +38,8 @@ dependencies {
 
     testCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
     testImplementation 'io.projectreactor:reactor-test'
+
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.2.RELEASE'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
@@ -47,4 +50,17 @@ test {
 asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    def string = "${asciidoctor.outputDir}/html5"
+    print(string)
+    from (string) {
+        into 'build/resources/main/static/docs'
+    }
+}
+copy {
+    from("${asciidoctor.outputDir}/html5")
+    into("${asciidoctor.outputDir}/../resources/main/static/docs")
 }
