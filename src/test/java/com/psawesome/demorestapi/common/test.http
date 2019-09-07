@@ -1,0 +1,13 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST http://localhost:8080/api/events
+Content-Type: application/json
+Accept: application/hal+json
+body: {"name":"Spring", "description":"REST API Development with Spring", "beginEnrollmentDateTime":"2019-08-28T14:21:00", "closeEnrollmentDateTime":"2019-08-29T14:21:00", "beginEventDateTime":"2019-08-30T14:21:00", "endEventDateTime":"2019-08-31T14:21:00", "location":"", "basePrice":0, "maxPrice":0, "limitOfEnrollment":100}
+###
