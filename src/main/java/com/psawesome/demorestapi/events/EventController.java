@@ -1,6 +1,7 @@
 package com.psawesome.demorestapi.events;
 
 import com.psawesome.demorestapi.common.ErrorsResource;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,34 @@ public class EventController {
         Event event = optionalEvent.get();
         EventResource eventResource = new EventResource(event);
         eventResource.add(new Link("/docs/index.html#resources-events-get").withRel("profile"));
+        return ResponseEntity.ok(eventResource);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modifyEvent(@RequestBody @Valid EventDto eventDto,
+                                         @PathVariable Integer id,
+                                         Errors errors) {
+
+        Optional<Event> optionalEven = this.eventRepository.findById(id);
+        if (optionalEven.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (errors.hasErrors()) {
+            return badRequest(errors);
+        }
+        this.eventValidator.validate(eventDto, errors);
+        if (errors.hasErrors()) {
+            return badRequest(errors);
+        }
+
+        Event event = optionalEven.get();
+        this.modelMapper.map(eventDto, event);
+        Event savedEvent = this.eventRepository.save(event);
+
+        EventResource eventResource = new EventResource(savedEvent);
+        eventResource.add(new Link("/docs/index.html#resources-events-update").withRel("profile"));
+
         return ResponseEntity.ok(eventResource);
     }
 
