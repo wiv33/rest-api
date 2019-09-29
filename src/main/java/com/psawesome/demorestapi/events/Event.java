@@ -1,5 +1,6 @@
 package com.psawesome.demorestapi.events;
 
+import com.psawesome.demorestapi.accounts.Account;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,8 @@ public class Event {
     private boolean free;
     @Enumerated(EnumType.STRING) @Builder.Default
     private EventStatus eventStatus = EventStatus.DRAFT;
+    @ManyToOne
+    private Account manager;
 
     public void update() {
         // Update free
