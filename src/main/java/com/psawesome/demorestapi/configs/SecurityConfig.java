@@ -53,11 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /*index는 무시함.*/
         web.ignoring().mvcMatchers("/docs/index.html");
         /*기본 위치는 security 영향을 받지 않음*/
-        web.ignoring().requestMatchers((PathRequest.toStaticResources().atCommonLocations()));
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     /* 2 */
-    @Override
+/*    @Override
     protected void configure(HttpSecurity http) throws Exception {
         //@formatter:off
         http
@@ -70,5 +70,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.GET, "/api/**").authenticated()
                 .anyRequest().authenticated();
     }
-    //@formatter:on
+    //@formatter:on*/
 }

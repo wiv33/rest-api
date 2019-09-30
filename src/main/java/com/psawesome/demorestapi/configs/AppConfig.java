@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.beans.BeanProperty;
 import java.util.Set;
 
 @Configuration
@@ -36,7 +35,7 @@ public class AppConfig {
             @Override
             public void run(ApplicationArguments args) throws Exception {
                 Account ps = Account.builder()
-                        .email("psawesome@gmail.com")
+                        .email("psawesome3@gmail.com")
                         .password("ps")
                         .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
                         .build();
